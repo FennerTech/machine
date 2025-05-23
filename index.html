@@ -1,0 +1,1145 @@
+<!-- -----------------------------------------------
+Auto Slot Machine v1.0
+(c) 2025 Marco Fenner
+
+Urheberrechtlich geschützt.
+Kopieren erlaubt.
+Verändern nur mit Namensnennung des Autors ;-)
+Danke und Viel Spaß!
+------------------------------------------------ -->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Slot Machine v1.0</title>
+    <meta name="description" content="Auto Slot Machine v1.0: Ein fesselndes Zero-Player-Game (ZPG), das sich von selbst spielt. Sammle Punkte und beobachte die automatische Slot-Maschine. Du kannst jederzeit manuell eingreifen!">
+    <meta name="keywords" content="Zero-Player-Game, ZPG, Slot Machine, Automatenspiel, Browsergame, HTML, JavaScript, kostenlos, Online Spiel, Simulation">
+    <meta name="author" content="Marco Fenner">
+    <link rel="canonical" href="https://fennertech.github.io/machine/index.html"> <meta property="og:title" content="Auto Slot Machine v1.0 - Das Zero-Player-Game">
+    <meta property="og:description" content="Ein fesselndes Zero-Player-Game (ZPG), das sich von selbst spielt. Sammle Punkte und beobachte die automatische Slot-Maschine. Du kannst jederzeit manuell eingreifen!">
+    <meta property="og:type" content="game">
+    <meta property="og:url" content="https://fennertech.github.io/machine/index.html"> <meta property="og:image" content="https://fennertech.github.io/machine/screenshot.png"> <meta property="og:site_name" content="FennerTech"> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="Auto Slot Machine v1.0 - Das Zero-Player-Game">
+    <meta name="twitter:description" content="Ein fesselndes Zero-Player-Game (ZPG), das sich von selbst spielt. Sammle Punkte und beobachte die automatische Slot-Maschine. Du kannst jederzeit manuell eingreifen!">
+    <meta name="twitter:image" content="https://fennertech.github.io/machine/screenshot.png"> <meta name="twitter:creator" content="@DeinTwitterHandle"> <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Game",
+      "name": "Auto Slot Machine v1.0",
+      "description": "Ein fesselndes Zero-Player-Game (ZPG), das sich von selbst spielt. Sammle Punkte und beobachte die automatische Slot-Maschine. Du kannst jederzeit manuell eingreifen!",
+      "author": {
+        "@type": "Person",
+        "name": "Marco Fenner"
+      },
+      "applicationCategory": "Game",
+      "gamePlatform": "Browser",
+      "url": "https://fennertech.github.io/machine/index.html", "image": "https://fennertech.github.io/machine/screenshot.png" }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script language="JavaScript" src="https://www.besucherzaehler-kostenlos.de/js/counter.js.php?count=1&id=fennertech.github.iomachine&start=0&design=6"></script>
+    <style>
+        /* Grundlegende Stile für den Body */
+        body {
+            font-family: 'Inter', sans-serif; /* Schriftart "Inter" verwenden */
+            background-color: #1a202c; /* Dunkler Hintergrund für den ganzen Viewport */
+            display: flex; /* Flexbox für Zentrierung */
+            justify-content: center; /* Horizontal zentrieren */
+            align-items: center; /* Vertikal zentrieren */
+            min-height: 100vh; /* Mindesthöhe des Viewports */
+            margin: 0; /* Kein äußerer Rand */
+            padding: 1rem; /* Innenabstand für kleinere Bildschirme */
+            box-sizing: border-box; /* Box-Modell für Padding/Border */
+            color: #e2e8f0; /* Heller Text für Kontrast zum dunklen Hintergrund */
+        }
+        /* Container für das gesamte Spiel */
+        .game-container {
+            background-color: #2d3748; /* Dunklerer Container-Hintergrund */
+            border-radius: 1.5rem; /* Stärker abgerundete Ecken */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Subtiler Schatten */
+            padding: 2.5rem; /* Mehr Innenabstand */
+            text-align: center; /* Text zentrieren */
+            max-width: 90%; /* Maximale Breite für Responsivität */
+            width: 600px; /* Feste Breite auf größeren Bildschirmen */
+            display: flex; /* Flexbox für innere Elemente */
+            flex-direction: column; /* Elemente untereinander anordnen */
+            gap: 1.5rem; /* Abstand zwischen den Elementen (von 2rem auf 1.5rem reduziert) */
+        }
+        /* Container für die drei Slots */
+        .slots-container {
+            display: flex; /* Flexbox für die Slots */
+            justify-content: space-around; /* Slots gleichmäßig verteilen */
+            gap: 1rem; /* Abstand zwischen den Slots */
+            margin-bottom: 0.5rem; /* Unterer Rand (von 1.5rem auf 0.5rem reduziert) */
+        }
+        /* Einzelner Slot-Stil */
+        .slot {
+            background-color: #4a5568; /* Slot-Hintergrundfarbe */
+            border: 4px solid #a0aec0; /* Hellerer Rand */
+            border-radius: 1rem; /* Abgerundete Ecken */
+            width: 120px; /* Feste Breite */
+            height: 150px; /* Feste Höhe */
+            display: flex; /* Flexbox für Zentrierung des Symbols */
+            justify-content: center; /* Symbol horizontal zentrieren */
+            align-items: center; /* Symbol vertikal zentrieren */
+            font-size: 4rem; /* Große Schriftgröße für Symbole */
+            font-weight: bold; /* Fettgedruckte Symbole */
+            color: #ffffff; /* Standardfarbe für Symbole (wird von JS überschrieben) */
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Innerer Schatten für Tiefe */
+            overflow: hidden; /* Wichtig für den Dreheffekt: Inhalte außerhalb des Slots werden abgeschnitten */
+            position: relative; /* Wichtig für absolute Positionierung der animierten Symbole */
+        }
+
+        /* Stil für die dynamisch erstellten Symbole während der Animation */
+        .slot-animated-symbol {
+            position: absolute; /* Absolut positioniert innerhalb des Slots */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem; /* Gleiche Schriftgröße wie der Slot */
+            font-weight: bold; /* Gleiche Schriftstärke */
+            /* Farbe wird dynamisch gesetzt, keine feste Farbe hier */
+            /* Übergang für die 'transform'-Eigenschaft, um das Gleiten zu ermöglichen */
+            transition: transform 1s linear;
+        }
+
+        /* Stil für den Button */
+        button {
+            /* Hintergrundfarbe jetzt ein sanfter Farbverlauf für mehr Tiefe */
+            background-image: linear-gradient(to right, #4299e1, #63b3ed);
+            color: white; /* Weiße Schrift */
+            padding: 1.25rem 2rem; /* Höherer Padding für mehr Höhe und Breite */
+            border-radius: 0.75rem; /* Abgerundete Ecken */
+            font-size: 1.35rem; /* Etwas größere Schrift */
+            font-weight: 700; /* Fett */
+            cursor: pointer; /* Mauszeiger als Zeiger */
+            border: none; /* Kein Rand */
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out; /* Übergänge für Hover-Effekte und Schatten */
+            box-shadow: 0 6px 15px rgba(66, 153, 225, 0.4); /* Stärkerer Schatten */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Leichter Textschatten */
+        }
+        /* Hover-Effekt für den Button (wenn nicht deaktiviert) */
+        button:hover:not(:disabled) {
+            background-image: linear-gradient(to right, #3182ce, #4299e1); /* Dunklerer Verlauf bei Hover */
+            transform: translateY(-3px); /* Etwas stärkerer Hoch-Effekt */
+            box-shadow: 0 8px 20px rgba(66, 153, 225, 0.5); /* Noch stärkerer Schatten bei Hover */
+        }
+        /* Aktiver (geklickter) Zustand für den Button (wenn nicht deaktiviert) */
+        button:active:not(:disabled) {
+            transform: translateY(0); /* Zurücksetzen bei Klick */
+            box-shadow: 0 4px 10px rgba(66, 153, 225, 0.3); /* Schatten zurücksetzen */
+        }
+        /* Stil für den deaktivierten Button */
+        button:disabled {
+            background-image: none; /* Verlauf entfernen */
+            background-color: #6b7280; /* Grauer Hintergrund */
+            cursor: not-allowed; /* Mauszeiger als "nicht erlaubt" */
+            box-shadow: none; /* Kein Schatten */
+            transform: translateY(0); /* Keine Animation */
+        }
+        /* Stil für den Countdown-Text */
+        .countdown {
+            font-size: 1.2rem;
+            color: #a0aec0; /* Heller grauer Text */
+            margin-top: 0.5rem; /* Abstand nach oben (von 1rem auf 0.5rem reduziert) */
+        }
+
+        /* Stil für die Zahl des Countdowns */
+        .countdown #countdownSeconds {
+            font-size: 1.8rem; /* 2 Schriftgrößen größer als 1.2rem */
+            font-weight: bold;
+            color: #fcd34d; /* Hellgelb */
+        }
+
+        /* Stil für die Anzeigefelder (Punkte, Klicks, Auto) */
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 0.5rem; /* Abstand nach unten (von 1rem auf 0.5rem reduziert) */
+            gap: 1rem;
+            flex-wrap: wrap; /* Erlaubt Umbruch auf kleineren Bildschirmen */
+        }
+        .stat-box {
+            background-color: #4a5568; /* Einheitliche Hintergrundfarbe für alle Stat-Boxen */
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.25rem;
+            min-width: 120px; /* Mindestbreite für die Boxen */
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: #a0aec0;
+            margin-bottom: 0.25rem;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff; /* Standardfarbe für Werte */
+        }
+
+        /* Container für Gold, Silber, Bronze */
+        .tier-stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 0.5rem; /* Abstand nach unten (von 1rem auf 0.5rem reduziert) */
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Container für Platin (initially hidden) */
+        .platin-container {
+            display: none; /* Standardmäßig ausgeblendet */
+            justify-content: center;
+            margin-bottom: 0.5rem; /* Abstand nach unten (von 1rem auf 0.5rem reduziert) */
+        }
+
+        /* Farben für die Tier-Werte */
+        .text-gold { color: #fcd34d; /* Hellgelb */ }
+        .text-silber { color: #d1d5db; /* Hellgrau */ }
+        .text-bronze { color: #fbbf24; /* Hellbraun (ein Goldbraun-Ton) */ }
+
+        /* Stil für das Informationsfeld */
+        #infoDisplay {
+            background-color: #4a5568; /* Gleiche Farbe wie die Stat-Boxen */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 1rem; /* Abstand nach oben (von 1.5rem auf 1rem reduziert) */
+            margin-bottom: 1rem; /* Abstand nach unten (von 1.5rem auf 1rem reduziert) */
+            min-height: 2.5rem; /* Mindesthöhe, damit das Feld nicht zusammenfällt */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Keyframes für den Blink-Effekt der Punkteanzeige */
+        @keyframes blink-points {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+        .blink-points-animation {
+            animation: blink-points 0.5s ease-in-out 2; /* 0.5s Dauer, 2x wiederholen */
+        }
+
+        /* Zusätzliche Buttons neben Copyright */
+        .copyright-buttons {
+            display: inline-flex; /* Damit die Buttons nebeneinander sind */
+            gap: 0.5rem; /* Abstand zwischen den Buttons */
+            margin-left: 0.75rem; /* Abstand zum Copyright-Text */
+            vertical-align: middle; /* Vertikal mit dem Text ausrichten */
+        }
+        .control-button {
+            width: 24px; /* Kleine feste Breite */
+            height: 24px; /* Kleine feste Höhe */
+            padding: 0; /* Padding entfernen, um feste Größe zu nutzen */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem; /* Größe des Symbols */
+            font-weight: bold;
+            border-radius: 50%; /* Rund machen */
+            color: white;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+        }
+        .control-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+        }
+        .control-button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .button-reset { background-color: #ef4444; /* Rot */ }
+        .button-info { background-color: #3b82f6; /* Blau */ }
+
+
+        /* Modalfenster Stile */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Halbdurchsichtiger Hintergrund */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Stellt sicher, dass das Modal über allem liegt */
+        }
+        .modal-content {
+            background-color: #2d3748; /* Gleicher Hintergrund wie Game-Container */
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            text-align: left; /* Text linksbündig für längere Inhalte */
+            max-width: 600px; /* Breiteres Modal für den Text */
+            width: 90%;
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: relative; /* Für den Close-Button */
+        }
+        .modal-scroll-content {
+            max-height: 70vh; /* Maximale Höhe für den scrollbaren Bereich */
+            overflow-y: auto; /* Scrollbalken bei Überlauf */
+            padding-right: 1rem; /* Platz für den Scrollbalken */
+            line-height: 1.5; /* Bessere Lesbarkeit */
+        }
+        .modal-scroll-content h2, .modal-scroll-content h3 {
+            font-weight: bold;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+            color: #ffffff;
+        }
+        .modal-scroll-content h2 { font-size: 1.5em; }
+        .modal-scroll-content h3 { font-size: 1.2em; }
+        .modal-scroll-content p {
+            margin-bottom: 1em;
+        }
+        .modal-scroll-content ul {
+            list-style-type: disc;
+            margin-left: 1.5em;
+            margin-bottom: 1em;
+        }
+
+        .modal-close-button {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: #ef4444; /* Rot */
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
+        }
+        .modal-close-button:hover {
+            background-color: #dc2626;
+            transform: translateY(-1px);
+        }
+        .modal-close-button:active {
+            transform: translateY(0);
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .modal-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .modal-button.confirm { background-color: #ef4444; color: white; } /* Rot für Ja */
+        .modal-button.confirm:hover { background-color: #dc2626; }
+        .modal-button.cancel { background-color: #6b7280; color: white; } /* Grau für Nein */
+        .modal-button.cancel:hover { background-color: #4b5563; }
+        .modal-button.ok { background-color: #4299e1; color: white; } /* Blau für OK */
+        .modal-button.ok:hover { background-color: #3182ce; }
+
+        /* Cookie Hinweis */
+        #cookieConsentModal .modal-content {
+            text-align: center;
+            max-width: 500px;
+        }
+        #cookieConsentModal .modal-buttons {
+            margin-top: 1.5rem;
+        }
+
+
+        /* Responsivität für kleinere Bildschirme (max. 640px Breite) */
+        @media (max-width: 640px) {
+            .game-container {
+                padding: 1.5rem; /* Weniger Innenabstand */
+                gap: 1.5rem; /* Weniger Abstand zwischen Elementen */
+            }
+            h1 {
+                font-size: 2rem; /* Kleinere Überschrift */
+            }
+            /* Subtitel und Copyright auf kleineren Bildschirmen anpassen */
+            .subtitle, .copyright {
+                font-size: 0.75rem; /* Noch kleiner auf Mobilgeräten */
+                color: #ffffff; /* Auch auf Mobilgeräten weiß */
+            }
+            .copyright-buttons {
+                margin-left: 0.5rem; /* Weniger Abstand auf kleinen Bildschirmen */
+            }
+            .control-button {
+                width: 20px; /* Noch kleiner auf Mobilgeräten */
+                height: 20px; /* Noch kleiner auf Mobilgeräten */
+                font-size: 0.9rem;
+            }
+            .slots-container {
+                flex-direction: column; /* Slots untereinander anordnen */
+                align-items: center; /* Slots zentrieren */
+                gap: 0.75rem; /* Weniger Abstand zwischen Slots */
+            }
+            .slot {
+                width: 100px; /* Kleinere Breite */
+                height: 120px; /* Kleinere Höhe */
+                font-size: 3rem; /* Kleinere Symbolgröße */
+            }
+            button {
+                font-size: 1rem; /* Kleinere Schriftgröße */
+                padding: 1rem 1.5rem; /* Angepasstes Padding für kleinere Bildschirme (von 0.8rem auf 1rem erhöht) */
+            }
+            .countdown {
+                font-size: 1rem; /* Kleinere Schriftgröße */
+            }
+            .stats-container, .tier-stats-container {
+                flex-direction: column; /* Statistiken untereinander anordnen */
+                align-items: center;
+            }
+            .stat-box {
+                width: 100%; /* Volle Breite für kleine Bildschirme */
+                max-width: 200px; /* Maximale Breite, um nicht zu breit zu werden */
+            }
+            #infoDisplay {
+                font-size: 0.9rem;
+                padding: 0.6rem 1rem;
+            }
+            .modal-content {
+                padding: 1.5rem;
+                gap: 1rem;
+                max-width: 95%; /* Etwas mehr Breite auf kleinen Bildschirmen */
+            }
+            .modal-button {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            .modal-close-button {
+                width: 24px;
+                height: 24px;
+                font-size: 1rem;
+                top: 0.5rem;
+                right: 0.5rem;
+            }
+            .visitor-stats {
+                font-size: 0.75rem; /* Noch kleiner auf Mobilgeräten */
+                gap: 0.5rem 1rem; /* Angepasster Abstand */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen">
+    <div class="game-container">
+        <h1 class="text-4xl font-bold text-white mb-0">Auto Slot Machine v1.0</h1>
+        <p class="text-xl text-white mt-1 mb-0 subtitle">ein Zero-Player-Game</p>
+        <p class="text-lg text-white mt-0.5 mb-2 copyright">(c) 2025 ff. <a href="mailto:datenschrauber@posteo.de" class="text-blue-400 hover:text-blue-300 underline">Datenschrauber</a>
+            <span class="copyright-buttons">
+                <button id="resetButton" class="control-button button-reset">X</button>
+                <button id="infoButton" class="control-button button-info">i</button>
+            </span>
+        </p>
+
+        <div class="visitor-stats">
+            Aktuell online: <span class="BZonline"></span> |
+            Spieler heute: <span class="BZheute"></span> |
+            Spieler gestern: <span class="BZgestern"></span> |
+            Spieler gesamt: <span class="BZgesamt"></span> |
+            Spieler seit (Datum): <span class="BZseit"></span>
+        </div>
+
+
+        <div id="platinContainer" class="platin-container">
+            <div class="stat-box">
+                <div class="stat-label">Platin</div>
+                <div id="platinDisplay" class="stat-value">0</div>
+            </div>
+        </div>
+
+        <div class="tier-stats-container">
+            <div class="stat-box">
+                <div class="stat-label">Gold</div>
+                <div id="goldDisplay" class="stat-value text-gold">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Silber</div>
+                <div id="silberDisplay" class="stat-value text-silber">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Bronze</div>
+                <div id="bronzeDisplay" class="stat-value text-bronze">0</div>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-label">Punkte</div>
+                <div id="pointsDisplay" class="stat-value">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Klicks</div>
+                <div id="clicksDisplay" class="stat-value">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Auto</div>
+                <div id="autoDisplay" class="stat-value">0</div>
+            </div>
+        </div>
+
+        <div class="slots-container">
+            <div id="slot1" class="slot">♠</div>
+            <div id="slot2" class="slot">♣</div>
+            <div id="slot3" class="slot">♦</div>
+        </div>
+
+        <div id="infoDisplay"></div>
+
+        <button id="spinButton">Manuell Drehen</button>
+
+        <p id="countdownDisplay" class="countdown">Nächstes automatisches Drehen in <span id="countdownSeconds">10</span> Sekunden.</p>
+    </div>
+
+    <div id="resetModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="resetModalCloseBtn" class="modal-close-button">X</button>
+            <p>Möchtest du den Spielstand wirklich zurücksetzen?</p>
+            <div class="modal-buttons">
+                <button id="resetConfirmBtn" class="modal-button confirm">Ja</button>
+                <button id="resetCancelBtn" class="modal-button cancel">Nein</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="infoModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="infoModalCloseBtn" class="modal-close-button">X</button>
+            <h2 class="text-2xl font-bold mb-4">Informationen zum Spiel</h2>
+            <div class="modal-scroll-content">
+                <h3>Impressum</h3>
+                <p>Angaben gemäß § 5 TMG</p>
+                <p><strong>Betreiber der Website:</strong><br>
+                Marco Fenner<br>
+                Wiardastraße 19<br>
+                26603 Aurich<br>
+                Deutschland</p>
+                <p><strong>Kontakt:</strong><br>
+                E-Mail: <a href="mailto:datenschrauber@posteo.de" class="text-blue-400 hover:text-blue-300 underline">datenschrauber@posteo.de</a><br>
+                Telefon: +49 1573 004 2105</p>
+                <p>Vielen Dank für den Besuch meiner Website.<br>
+                Wenn Sie Ihnen gefallen hat, würde ich mich über eine kurze Nachricht sehr freuen. 😊</p>
+
+                <h3>Haftungsausschluss:</h3>
+                <h4>Haftung für Inhalte</h4>
+                <p>Als Diensteanbieter bin ich gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG bin ich als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werde ich diese Inhalte umgehend entfernen.</p>
+
+                <h4>Haftung für Links</h4>
+                <p>Mein Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte ich keinen Einfluss habe. Deshalb kann ich für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werde ich derartige Links umgehend entfernen.</p>
+
+                <h4>Urheberrecht</h4>
+                <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitte ich um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werde ich diese Inhalte umgehend entfernen.</p>
+
+                <h3>Datenschutz:</h3>
+                <p>Die Nutzung meiner Webseite ist in der Regel ohne Angabe personenbezogener Daten möglich. Soweit auf meinen Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder E-Mail-Adressen) erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung nicht an Dritte weitergegeben. Ich weise darauf hin, dass die Datenübertragung im Internet (z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.</p>
+
+                <h3>Besucherzähler von besucherzaehler-kostenlos.de</h3>
+                <p>Diese Webseite verwendet einen externen Zähler, um die Anzahl der Webseitenaufrufe zu erfassen. Dafür wird ein Java-Script von einer externe Webseite geladen. Der Server von besucherzaehler-kostenlos.de speichert die IP-Adresse des Zugriffs anonymisiert und zeitlich begrenzt in einer LOG-Datei ab. Diese wird regelmäßig unwiderruflich gelöscht.</p>
+                <p>Um die korrekte Funktionsweise des Zählers zu gewährleisten, speichert der Besucherzähler zudem einen sogenannten Session-Cookie auf dem Computer des Besuchers ab. Dieser wird in der Regel vom Browser gelöscht, sobald er geschlossen wird. In diesem Cookie werden keine persönlichen Informationen gespeichert. Er enthält lediglich die Information der aufgerufenen Domain, sowie einen boolschen Tag (true/false), um den Besucher als bereits gezählt zu markieren.</p>
+                <p>Es werden auch darüberhinaus keine persönlichen oder personenbezogenen Daten vom Besucherzähler erhoben. Eine Nachverfolgung oder Zuordnung der Zugriffe ist zu keiner Zeit möglich. Ein besonderer Dank geht an www.howtodocentral.com, durch dessen Unterstützung dieser kostenlose Service erst möglich gemacht wird.</p>
+
+                <h3>Einsehbarkeit des Quellcodes:</h3>
+                <p>Der Quellcode dieser Seite ist vollständig für jedermann einsehbar.</p>
+            </div>
+            <div class="modal-buttons">
+                <button id="infoCloseBtn" class="modal-button ok">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cookieConsentModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold mb-4">Cookie-Hinweis</h2>
+            <div class="modal-scroll-content" style="max-height: none; padding-right: 0;">
+                <p>Diese Webseite verwendet Cookies, um den Spielstand zu speichern und für die Besucherstatistik. Durch die Nutzung dieser Webseite stimmst du der Verwendung von Cookies zu.</p>
+                <p>Weitere Informationen findest du im <a href="#" id="cookieInfoLink" class="text-blue-400 hover:text-blue-300 underline">Impressum und Datenschutz</a>.</p>
+            </div>
+            <div class="modal-buttons">
+                <button id="cookieConsentOkBtn" class="modal-button ok">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM-Elemente abrufen (Referenzen zu HTML-Elementen)
+        const slot1 = document.getElementById('slot1');
+        const slot2 = document.getElementById('slot2');
+        const slot3 = document.getElementById('slot3');
+        const spinButton = document.getElementById('spinButton');
+        const countdownSecondsSpan = document.getElementById('countdownSeconds');
+        // Neue DOM-Elemente für die Anzeigen
+        const pointsDisplay = document.getElementById('pointsDisplay');
+        const clicksDisplay = document.getElementById('clicksDisplay');
+        const autoDisplay = document.getElementById('autoDisplay');
+        const bronzeDisplay = document.getElementById('bronzeDisplay');
+        const silberDisplay = document.getElementById('silberDisplay');
+        const goldDisplay = document.getElementById('goldDisplay');
+        const platinDisplay = document.getElementById('platinDisplay');
+        const platinContainer = document.getElementById('platinContainer'); // Container für Platin-Anzeige
+        const infoDisplay = document.getElementById('infoDisplay'); // Informationsfeld
+
+        // Buttons und Modals
+        const resetButton = document.getElementById('resetButton'); // Reset-Button
+        const infoButton = document.getElementById('infoButton');   // Info-Button
+        const resetModal = document.getElementById('resetModal');   // Reset-Modal
+        const resetConfirmBtn = document.getElementById('resetConfirmBtn'); // Reset-Modal Ja-Button
+        const resetCancelBtn = document.getElementById('resetCancelBtn');   // Reset-Modal Nein-Button
+        const infoModal = document.getElementById('infoModal');     // Info-Modal
+        const infoCloseBtn = document.getElementById('infoCloseBtn');   // Info-Modal OK-Button
+        const resetModalCloseBtn = document.getElementById('resetModalCloseBtn'); // Reset-Modal X-Button
+        const infoModalCloseBtn = document.getElementById('infoModalCloseBtn');   // Info-Modal X-Button
+        // Cookie Consent Elemente
+        const cookieConsentModal = document.getElementById('cookieConsentModal');
+        const cookieConsentOkBtn = document.getElementById('cookieConsentOkBtn');
+        const cookieInfoLink = document.getElementById('cookieInfoLink');
+
+
+        // Die vier Spielkarten-Symbole
+        const cardSymbols = ['♠', '♣', '♦', '♥'];
+        // Die Farben für die Slot-Symbole (Weiß, Hellgelb, Hellrot, Hellblau)
+        const symbolColors = ['#ffffff', '#fcd34d', '#ef4444', '#60a5fa']; // Weiß, Hellgelb, Hellrot, Hellblau
+
+        // Spielvariablen
+        let autoSpinInterval; // Speichert die ID des setInterval für das automatische Drehen
+        const autoSpinDuration = 2000; // Dauer, für die sich die Slots "drehen" (2 Sekunden)
+        const autoSpinTimerReset = 10; // Zeit in Sekunden bis zum nächsten automatischen Spin
+        let lastSpinTimestamp = 0; // Zeitstempel des letzten Spins (manuell oder automatisch)
+        let nextAutoSpinTargetTime = 0; // Absoluter Zeitstempel für den nächsten automatischen Spin
+
+        // Neue Spielvariablen für die Statistiken
+        let points = 0; // Aktuelle Punkte (restliche Punkte nach Bronze-Umwandlung)
+        let autoSpins = 0;
+        let manualSpins = 0;
+        let bronze = 0; // Neue Variable für Bronze
+        let silber = 0; // Neue Variable für Silber
+        let gold = 0;   // Neue Variable für Gold
+        let platin = 0; // Neue Variable für Platin
+        const bonus = 0; // Bonus ist zunächst 0, wird später implementiert
+
+        /**
+         * Wählt ein zufälliges Spielkarten-Symbol aus dem 'cardSymbols'-Array.
+         * @returns {string} Ein zufälliges Spielkarten-Symbol.
+         */
+        function getRandomSymbol() {
+            const randomIndex = Math.floor(Math.random() * cardSymbols.length);
+            return cardSymbols[randomIndex];
+        }
+
+        /**
+         * Wählt eine zufällige Farbe aus dem 'symbolColors'-Array.
+         * @returns {string} Eine zufällige Farbe im Hex-Format.
+         */
+        function getRandomColor() {
+            const randomIndex = Math.floor(Math.random() * symbolColors.length);
+            return symbolColors[randomIndex];
+        }
+
+        /**
+         * Simuliert eine "Dreh"-Animation für einen einzelnen Slot,
+         * indem das alte Symbol nach unten und das neue Symbol von oben gleitet.
+         * Die Animation dauert 'autoSpinDuration'.
+         * @param {HTMLElement} slotElement - Das HTML-Element des Slots, das animiert werden soll.
+         * @returns {Promise<{symbol: string, color: string}>} Ein Promise, das mit dem finalen Symbol und seiner Farbe aufgelöst wird,
+         * sobald die Animation abgeschlossen ist.
+         */
+        function animateSlot(slotElement) {
+            return new Promise(resolve => {
+                // Alle vorherigen animierten Symbole entfernen, bevor neue erstellt werden.
+                Array.from(slotElement.children).forEach(child => {
+                    if (child.classList.contains('slot-animated-symbol')) {
+                        slotElement.removeChild(child);
+                    }
+                });
+
+                const currentSymbol = slotElement.textContent; // Das aktuell angezeigte Symbol
+                const currentSymbolColor = slotElement.style.color; // Die aktuelle Farbe des Symbols
+                const finalSymbol = getRandomSymbol(); // Das neue, zufällige Symbol
+                const finalSymbolColor = getRandomColor(); // Die zufällige Farbe für das neue Symbol
+
+                // Temporär das Haupt-Slot-Element leeren, um die animierten Divs aufzunehmen
+                slotElement.innerHTML = '';
+
+                // Erstelle das Div für das alte Symbol
+                const oldSymbolDiv = document.createElement('div');
+                oldSymbolDiv.classList.add('slot-animated-symbol');
+                oldSymbolDiv.textContent = currentSymbol;
+                oldSymbolDiv.style.color = currentSymbolColor; // Farbe des alten Symbols beibehalten
+                oldSymbolDiv.style.transform = 'translateY(0%)'; // Startposition: Mitte
+                slotElement.appendChild(oldSymbolDiv);
+
+                // Erstelle das Div für das neue Symbol
+                const newSymbolDiv = document.createElement('div');
+                newSymbolDiv.classList.add('slot-animated-symbol');
+                newSymbolDiv.textContent = finalSymbol;
+                newSymbolDiv.style.color = finalSymbolColor; // Zufällige Farbe für das neue Symbol
+                newSymbolDiv.style.transform = 'translateY(-100%)'; // Startposition: Oberhalb des Slots
+                slotElement.appendChild(newSymbolDiv);
+
+                // Erzwinge einen Reflow, damit der Browser die Startpositionen rendert,
+                // bevor die Transition angewendet wird.
+                oldSymbolDiv.offsetHeight;
+                newSymbolDiv.offsetHeight;
+
+                // Starte die Gleit-Animationen
+                oldSymbolDiv.style.transform = 'translateY(100%)'; // Altes Symbol gleitet nach unten
+                newSymbolDiv.style.transform = 'translateY(0%)';   // Neues Symbol gleitet in die Mitte
+
+                // Cleanup und Resolve basierend auf setTimeout, nicht transitionend.
+                setTimeout(() => {
+                    // Entferne die temporären animierten Symbole
+                    if (oldSymbolDiv.parentNode === slotElement) {
+                        slotElement.removeChild(oldSymbolDiv);
+                    }
+                    if (newSymbolDiv.parentNode === slotElement) {
+                        slotElement.removeChild(newSymbolDiv);
+                    }
+                    // Setze das finale Symbol in den Haupt-Slot und seine Farbe
+                    slotElement.textContent = finalSymbol;
+                    slotElement.style.color = finalSymbolColor; // Setze die Farbe des finalen Symbols
+                    resolve({ symbol: finalSymbol, color: finalSymbolColor }); // Promise mit Symbol und Farbe auflösen
+                }, 1000); // 1000ms = 1 Sekunde, passend zur CSS transition duration
+            });
+        }
+
+        /**
+         * Wendet einen Bonus an und aktualisiert die entsprechenden Zähler.
+         * @param {number} value - Der Bonuswert, der hinzugefügt werden soll.
+         * @param {string} message - Die Nachricht, die im Infofeld angezeigt werden soll.
+         * @param {boolean} isManualSpin - True, wenn der Bonus durch einen manuellen Spin ausgelöst wurde.
+         */
+        function applyBonus(value, message, isManualSpin) {
+            points += value;
+            infoDisplay.textContent = message;
+
+            // Zähler für Klicks oder Auto erhöhen, je nach Spin-Typ
+            if (isManualSpin) {
+                manualSpins += value;
+            } else {
+                autoSpins += value;
+            }
+
+            // Punkteanzeige aufblitzen lassen
+            pointsDisplay.classList.add('blink-points-animation');
+            setTimeout(() => {
+                pointsDisplay.classList.remove('blink-points-animation');
+            }, 1000); // Animation dauert 0.5s, also nach 1s entfernen
+        }
+
+        /**
+         * Überprüft die Slot-Ergebnisse auf Bonus-Kombinationen und wendet sie an.
+         * @param {Array<Object>} results - Ein Array von Objekten, die Symbol und Farbe jedes Slots enthalten.
+         * @param {boolean} isManualSpin - True, wenn der Bonus durch einen manuellen Spin ausgelöst wurde.
+         */
+        function checkBonusConditions(results, isManualSpin) {
+            const s1 = results[0].symbol;
+            const s2 = results[1].symbol;
+            const s3 = results[2].symbol;
+            const c1 = results[0].color;
+            const c2 = results[1].color;
+            const c3 = results[2].color;
+
+            // Standardmäßig Infofeld leeren
+            infoDisplay.textContent = '';
+
+            const allSymbolsSame = (s1 === s2 && s2 === s3);
+            const allColorsSame = (c1 === c2 && c2 === c3);
+            const allHearts = (s1 === '♥' && s2 === '♥' && s3 === '♥');
+            const allRed = (c1 === '#ef4444' && c2 === '#ef4444' && c3 === '#ef4444'); // Hellrot
+
+            // 1. Volltreffer! (Drei rote Herzen) - Höchste Priorität
+            if (allHearts && allRed) {
+                applyBonus(500, 'Volltreffer! (+500)', isManualSpin);
+                return; // Keine weiteren Prüfungen, da dies die spezifischste Bedingung ist
+            }
+
+            // 2. Dreier! (Drei gleiche Symbole UND gleiche Farben, außer drei rote Herzen)
+            // Wichtig: Muss NACH Volltreffer geprüft werden, um Überschneidungen zu vermeiden.
+            if (allSymbolsSame && allColorsSame) {
+                // Stellen Sie sicher, dass es KEINE drei roten Herzen sind, da dies bereits oben abgefangen wurde
+                if (!(allHearts && allRed)) {
+                    applyBonus(100, 'Dreier! (+100)', isManualSpin);
+                    return;
+                }
+            }
+
+            // 3. Drei gleiche Symbole!
+            if (allSymbolsSame) {
+                applyBonus(20, 'Drei gleiche Symbole! (+20)', isManualSpin);
+                return;
+            }
+
+            // 4. Drei gleiche Farben!
+            if (allColorsSame) {
+                applyBonus(10, 'Drei gleiche Farben! (+10)', isManualSpin);
+                return;
+            }
+        }
+
+
+        /**
+         * Aktualisiert die Anzeigen für Punkte, Klicks, Auto-Drehungen und die neuen Tiers.
+         * Implementiert die kaskadierende Umwandlungslogik.
+         */
+        function updateStatsDisplay() {
+            // 1. Punkte in Bronze umwandeln
+            let pointsConvertedToBronze = false; // Flag, um zu prüfen, ob Punkte umgewandelt wurden
+            while (points >= 1000) { // Schwellenwert wieder auf 1000 gesetzt
+                points -= 1000;
+                bronze++;
+                pointsConvertedToBronze = true;
+            }
+            // Wenn Punkte in Bronze umgewandelt wurden, setze Klicks und Auto zurück
+            if (pointsConvertedToBronze) {
+                manualSpins = 0;
+                autoSpins = 0;
+            }
+
+            // 2. Bronze in Silber umwandeln
+            while (bronze >= 1000) { // Schwellenwert wieder auf 1000 gesetzt
+                bronze -= 1000;
+                silber++;
+            }
+
+            // 3. Silber in Gold umwandeln
+            while (silber >= 1000) { // Schwellenwert wieder auf 1000 gesetzt
+                silber -= 1000;
+                gold++;
+            }
+
+            // 4. Gold in Platin umwandeln
+            while (gold >= 1000) { // Schwellenwert wieder auf 1000 gesetzt
+                gold -= 1000;
+                platin++;
+                // Platin-Anzeige sichtbar machen, wenn sie zum ersten Mal inkrementiert wird
+                if (platinContainer.style.display === 'none' || platinContainer.style.display === '') {
+                    platinContainer.style.display = 'flex';
+                }
+            }
+
+            // Alle Anzeigen aktualisieren
+            pointsDisplay.textContent = points;
+            clicksDisplay.textContent = manualSpins;
+            autoDisplay.textContent = autoSpins;
+            bronzeDisplay.textContent = bronze;
+            silberDisplay.textContent = silber;
+            goldDisplay.textContent = gold;
+            platinDisplay.textContent = platin;
+
+            // Browser-Tab-Titel aktualisieren
+            document.title = `ASM: ${gold}-${silber}-${bronze}-${points}`;
+        }
+
+        /**
+         * Startet den Drehmechanismus für alle drei Slots.
+         * Deaktiviert den Spin-Button während des Drehens und aktualisiert die Zähler.
+         * @param {boolean} isManual - True, wenn der Spin manuell ausgelöst wurde, False sonst.
+         * @param {boolean} isCatchUpSpin - True, wenn dieser Spin Teil eines Hintergrund-Catch-ups ist und nicht animiert werden soll.
+         */
+        async function spinSlots(isManual = false, isCatchUpSpin = false) {
+            let results; // Variable, um die Symbole und Farben der Slots zu speichern
+
+            if (!isCatchUpSpin) {
+                // Nur animieren und Button-Status ändern, wenn es kein Catch-up-Spin ist
+                spinButton.disabled = true;
+                spinButton.textContent = 'Dreht...';
+                infoDisplay.textContent = ''; // Infofeld zu Beginn des Spins leeren
+
+                // Startet die Animationen für alle Slots gleichzeitig und wartet, bis alle fertig sind.
+                results = await Promise.all([
+                    animateSlot(slot1),
+                    animateSlot(slot2),
+                    animateSlot(slot3)
+                ]);
+            } else {
+                // Für Catch-up-Spins: Keine Animation, nur Symbole und Farben generieren
+                results = [
+                    { symbol: getRandomSymbol(), color: getRandomColor() },
+                    { symbol: getRandomSymbol(), color: getRandomColor() },
+                    { symbol: getRandomSymbol(), color: getRandomColor() }
+                ];
+                // Die Slot-Elemente selbst müssen für den nächsten "echten" Spin aktualisiert werden,
+                // damit die `animateSlot` Funktion das korrekte `currentSymbol` und `currentSymbolColor` hat.
+                // Dies geschieht hier direkt, da keine Animation läuft.
+                slot1.textContent = results[0].symbol;
+                slot1.style.color = results[0].color;
+                slot2.textContent = results[1].symbol;
+                slot2.style.color = results[1].color;
+                slot3.textContent = results[2].symbol;
+                slot3.style.color = results[2].color;
+            }
+
+            // Zähler für Klicks/Auto erhöhen (jeder Spin gibt 1 Punkt als Basis)
+            if (isManual) {
+                manualSpins++;
+            } else {
+                autoSpins++;
+            }
+            points++; // Jeder Spin gibt 1 Punkt als Basis
+
+            // Bonusbedingungen prüfen und anwenden
+            checkBonusConditions(results, isManual);
+
+            // Anzeigen aktualisieren (inklusive der durch Boni hinzugefügten Punkte)
+            updateStatsDisplay();
+
+            if (!isCatchUpSpin) {
+                // Warte die restliche Zeit der gesamten Spin-Dauer ab,
+                // bevor der Button wieder aktiviert und der Cooldown-Timer zurückgesetzt wird.
+                const remainingSpinTime = autoSpinDuration - 1000; // 2000ms (Gesamtdauer) - 1000ms (Symbolanimation) = 1000ms
+
+                setTimeout(() => {
+                    spinButton.disabled = false; // Button wieder aktivieren
+                    spinButton.textContent = 'Manuell Drehen'; // Text des Buttons zurücksetzen
+                    lastSpinTimestamp = Date.now(); // Den Zeitstempel des aktuellen Spins speichern (für Cooldown)
+                    resetAutomaticSpinTimer(); // Den Timer für den nächsten automatischen Spin zurücksetzen
+                }, remainingSpinTime);
+            }
+            // Für Catch-up-Spins wird lastSpinTimestamp und resetAutomaticSpinTimer
+            // nach der Schleife in updateCountdown() behandelt.
+        }
+
+        /**
+         * Aktualisiert den Countdown-Zähler und löst bei 0 einen automatischen Spin aus,
+         * unter Berücksichtigung der 10-Sekunden-Cooldown-Regel nach einem manuellen Spin.
+         */
+        function updateCountdown() {
+            const now = Date.now();
+            // Berechne die verbleibende Zeit bis zum nächsten geplanten automatischen Spin
+            const timeRemainingMs = nextAutoSpinTargetTime - now;
+            // Runde auf die nächste ganze Sekunde auf, um den Countdown anzuzeigen (z.B. 9.9s wird zu 10s)
+            const secondsRemaining = Math.max(0, Math.round(timeRemainingMs / 1000));
+
+            countdownSecondsSpan.textContent = secondsRemaining;
+
+            // Wenn die verbleibende Zeit nahe Null oder negativ ist, ist ein Spin fällig.
+            // Die kleine Pufferzeit (50ms) hilft bei Rundungsfehlern und Timing-Ungenauigkeiten.
+            if (timeRemainingMs <= 50) {
+                const timeSinceLastActualSpin = (now - lastSpinTimestamp) / 1000;
+                const spinsDue = Math.floor(timeSinceLastActualSpin / autoSpinTimerReset);
+
+                if (spinsDue > 0) {
+                    // Führe die fälligen Spins aus.
+                    for (let i = 0; i < spinsDue; i++) {
+                        // Führe den Spin als Catch-up-Spin aus (keine Animation, keine Button-Änderung)
+                        spinSlots(false, true);
+                    }
+                    // Nach allen Catch-up-Spins: lastSpinTimestamp aktualisieren und Timer neu setzen
+                    lastSpinTimestamp = now; // Setze den Zeitstempel auf jetzt, da alle fälligen Spins verarbeitet wurden
+                    resetAutomaticSpinTimer(); // Setzt nextAutoSpinTargetTime basierend auf dem neuen lastSpinTimestamp
+                }
+            }
+        }
+
+        /**
+         * Setzt den Timer für das automatische Drehen zurück und startet ihn neu.
+         * Dies wird sowohl beim Start des Spiels als auch nach jedem Spin aufgerufen.
+         */
+        function resetAutomaticSpinTimer() {
+            clearInterval(autoSpinInterval); // Vorhandenen Timer stoppen, falls einer läuft
+            // Berechne den absoluten Zeitstempel für den nächsten automatischen Spin
+            nextAutoSpinTargetTime = lastSpinTimestamp + autoSpinTimerReset * 1000;
+            // Aktualisiere die Anzeige sofort auf den vollen Countdown-Wert
+            countdownSecondsSpan.textContent = autoSpinTimerReset;
+            // Starte einen neuen Timer, der jede Sekunde 'updateCountdown' aufruft
+            autoSpinInterval = setInterval(updateCountdown, 1000);
+        }
+
+        /**
+         * Speichert den aktuellen Spielstand im localStorage.
+         */
+        function saveGame() {
+            const gameState = {
+                points: points,
+                autoSpins: autoSpins,
+                manualSpins: manualSpins,
+                bronze: bronze,
+                silber: silber,
+                gold: gold,
+                platin: platin,
+                // Speichern der aktuellen Symbole und Farben der Slots
+                slot1Symbol: slot1.textContent,
+                slot1Color: slot1.style.color,
+                slot2Symbol: slot2.textContent,
+                slot2Color: slot2.style.color,
+                slot3Symbol: slot3.textContent,
+                slot3Color: slot3.style.color,
+                lastSpinTimestamp: lastSpinTimestamp // Wichtig für die Hintergrund-Berechnung
+            };
+            localStorage.setItem('zpgSlotMachineSave', JSON.stringify(gameState));
+            console.log('Spielstand gespeichert.');
+        }
+
+        /**
+         * Lädt den Spielstand aus dem localStorage.
+         * @returns {boolean} True, wenn ein Spielstand geladen wurde, False sonst.
+         */
+        function loadGame() {
+            const savedState = localStorage.getItem('zpgSlotMachineSave');
+            if (savedState) {
+                const gameState = JSON.parse(savedState);
+                points = gameState.points || 0;
+                autoSpins = gameState.autoSpins || 0;
+                manualSpins = gameState.manualSpins || 0;
+                bronze = gameState.bronze || 0;
+                silber = gameState.silber || 0;
+                gold = gameState.gold || 0;
+                platin = gameState.platin || 0;
+
+                // Symbole und Farben der Slots wiederherstellen
+                slot1.textContent = gameState.slot1Symbol || getRandomSymbol();
+                slot1.style.color = gameState.slot1Color || getRandomColor();
+                slot2.textContent = gameState.slot2Symbol || getRandomSymbol();
+                slot2.style.color = gameState.slot2Color || getRandomColor();
+                slot3.textContent = gameState.slot3Symbol || getRandomSymbol();
+                slot3.style.color = gameState.slot3Color || getRandomColor();
+
+                lastSpinTimestamp = gameState.lastSpinTimestamp || Date.now(); // Falls nicht gespeichert, jetzt initialisieren
+
+                // Platin-Container sichtbar machen, falls Platin-Punkte vorhanden sind
+                if (platin > 0) {
+                    platinContainer.style.display = 'flex';
+                }
+
+                console.log('Spielstand geladen.');
+                return true;
+            }
+            console.log('Kein Spielstand gefunden.');
+            return false;
+        }
+
+        /**
+         * Setzt den gesamten Spielstand zurück und lädt die Seite neu.
+         */
+        function resetGame() {
+            // Alle Spielvariablen explizit auf 0 setzen
+            points = 0;
+            autoSpins = 0;
+            manualSpins = 0;
+            bronze = 0;
+            silber = 0;
+            gold = 0;
+            platin = 0;
+            // Auch die Slot-Symbole zurücksetzen (optional, da die Seite neu geladen wird, aber gut für Konsistenz)
+            slot1.textContent = getRandomSymbol();
+            slot1.style.color = getRandomColor();
+            slot2.textContent = getRandomSymbol();
+            slot2.style.color = getRandomColor();
+            slot3.textContent = getRandomSymbol();
+            slot3.style.color = getRandomColor();
+
+            updateStatsDisplay(); // Anzeigen sofort aktualisieren
+
+            localStorage.removeItem('zpgSlotMachineSave'); // Gespeicherten Spielstand löschen
+            // Optional: Kurze Verzögerung, um sicherzustellen, dass localStorage gelöscht ist, bevor neu geladen wird
+            setTimeout(() => {
+                location.reload(); // Seite neu laden
+            }, 50); // Eine sehr kurze Verzögerung
+        }
+
+        // Event-Listener für den manuellen Spin-Button
+        spinButton.addEventListener('click', () => {
+            spinSlots(true); // Manuellen Spin auslösen (isManual = true)
+        });
+
+        // Event-Listener für Reset-Button
+        resetButton.addEventListener('click', () => {
+            resetModal.classList.remove('hidden'); // Modalfenster anzeigen
+        });
+        resetConfirmBtn.addEventListener('click', () => {
+            resetGame(); // Spiel zurücksetzen
+        });
+        resetCancelBtn.addEventListener('click', () => {
+            resetModal.classList.add('hidden'); // Modalfenster ausblenden
+        });
+        // Close-Button für Reset-Modal
+        resetModalCloseBtn.addEventListener('click', () => {
+            resetModal.classList.add('hidden'); // Modalfenster ausblenden
+        });
+
+        // Event-Listener für Info-Button
+        infoButton.addEventListener('click', () => {
+            infoModal.classList.remove('hidden'); // Infomodal anzeigen
+        });
+        infoCloseBtn.addEventListener('click', () => {
+            infoModal.classList.add('hidden'); // Infomodal ausblenden
+        });
+        // Close-Button für Info-Modal
+        infoModalCloseBtn.addEventListener('click', () => {
+            infoModal.classList.add('hidden'); // Infomodal ausblenden
+        });
+        // Link im Cookie-Modal zum Info-Modal
+        cookieInfoLink.addEventListener('click', (event) => {
+            event.preventDefault(); // Standard-Link-Verhalten verhindern
+            cookieConsentModal.classList.add('hidden'); // Cookie-Modal ausblenden
+            infoModal.classList.remove('hidden'); // Info-Modal anzeigen
+        });
+
+
+        // Event-Listener für das Speichern beim Verlassen der Seite
+        window.addEventListener('beforeunload', saveGame); // Für die meisten Browser
+        window.addEventListener('pagehide', saveGame);     // Für neuere Browser/Mobile
+
+        // Initialisierung des Spiels, sobald die Seite komplett geladen ist
+        window.onload = () => {
+            // Cookie-Zustand prüfen und ggf. Cookie-Hinweis anzeigen
+            const cookieConsentGiven = localStorage.getItem('cookieConsentGiven');
+            if (cookieConsentGiven !== 'true') {
+                cookieConsentModal.classList.remove('hidden');
+            }
+
+            // Event-Listener für Cookie-OK-Button
+            cookieConsentOkBtn.addEventListener('click', () => {
+                localStorage.setItem('cookieConsentGiven', 'true');
+                cookieConsentModal.classList.add('hidden');
+            });
+
+
+            // Versuche, den Spielstand zu laden
+            const gameLoaded = loadGame();
+
+            // Wenn kein Spielstand geladen wurde, initialisiere die Symbole neu
+            if (!gameLoaded) {
+                slot1.textContent = getRandomSymbol();
+                slot1.style.color = getRandomColor();
+                slot2.textContent = getRandomSymbol();
+                slot2.style.color = getRandomColor();
+                slot3.textContent = getRandomSymbol();
+                slot3.style.color = getRandomColor();
+                lastSpinTimestamp = Date.now(); // Initialisiere den Zeitstempel für den ersten Spin
+            }
+
+            // Starte den Timer für das automatische Drehen
+            resetAutomaticSpinTimer();
+            // Initialisiere die Anzeigen
+            updateStatsDisplay(); // Ruft auch die Titelaktualisierung auf
+        };
+    </script>
+</body>
+</html>
+
