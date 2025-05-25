@@ -1,5 +1,5 @@
 <!-- -----------------------------------------------
-Auto Slot Machine v1.01
+Auto Slot Machine v1.02
 (c) 2025 Marco Fenner
 
 Urheberrechtlich geschützt.
@@ -13,20 +13,20 @@ Danke und Viel Spaß!
     <link rel="icon" href="favicon.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Slot Machine v1.01</title>
-    <meta name="description" content="Auto Slot Machine v1.01: Ein fesselndes Zero-Player-Game (ZPG), das sich von selbst spielt. Sammle Punkte und beobachte die automatische Slot-Maschine. Du kannst jederzeit manuell eingreifen!">
+    <title>Auto Slot Machine v1.02</title>
+    <meta name="description" content="Auto Slot Machine v1.02: Ein fesselndes Zero-Player-Game (ZPG), das sich von selbst spielt. Sammle Punkte und beobachte die automatische Slot-Maschine. Du kannst jederzeit manuell eingreifen!">
     <meta name="keywords" content="Zero-Player-Game, ZPG, Slot Machine, Automatenspiel, Browsergame, HTML, JavaScript, kostenlos, Online Spiel, Simulation">
     <meta name="author" content="Marco Fenner">
-    <link rel="canonical" href="https://fennertech.github.io/machine/index.html"> <meta property="og:title" content="Auto Slot Machine v1.01 - Das Zero-Player-Game">
+    <link rel="canonical" href="https://fennertech.github.io/machine/index.html"> <meta property="og:title" content="Auto Slot Machine v1.02 - Das Zero-Player-Game">
     <meta property="og:description" content="Ein fesselndes Zero-Player-Game (ZPG), das sich von selbst spielt. Sammle Punkte und beobachte die automatische Slot-Maschine. Du kannst jederzeit manuell eingreifen!">
     <meta property="og:type" content="game">
-    <meta property="og:url" content="https://fennertech.github.io/machine/index.html"> <meta property="og:image" content="https://fennertech.github.io/machine/screenshot.png"> <meta property="og:site_name" content="FennerTech"> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="Auto Slot Machine v1.01 - Das Zero-Player-Game">
+    <meta property="og:url" content="https://fennertech.github.io/machine/index.html"> <meta property="og:image" content="https://fennertech.github.io/machine/screenshot.png"> <meta property="og:site_name" content="FennerTech"> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="Auto Slot Machine v1.02 - Das Zero-Player-Game">
     <meta name="twitter:description" content="Ein fesselndes Zero-Player-Game (ZPG), das sich von selbst spielt. Sammle Punkte und beobachte die automatische Slot-Maschine. Du kannst jederzeit manuell eingreifen!">
     <meta name="twitter:image" content="https://fennertech.github.io/machine/screenshot.png"> <meta name="twitter:creator" content="@DeinTwitterHandle"> <script type="application/ld+json">
     {
       "@context": "http://schema.org",
       "@type": "Game",
-      "name": "Auto Slot Machine v1.01",
+      "name": "Auto Slot Machine v1.02",
       "description": "Ein fesselndes Zero-Player-Game (ZPG), das sich von selbst spielt. Sammle Punkte und beobachte die automatische Slot-Maschine. Du kannst jederzeit manuell eingreifen!",
       "author": {
         "@type": "Person",
@@ -449,7 +449,7 @@ Danke und Viel Spaß!
 </head>
 <body class="bg-gray-900 flex items-center justify-center min-h-screen">
     <div class="game-container">
-        <h1 class="text-4xl font-bold text-white mb-0">Auto Slot Machine v1.0</h1>
+        <h1 class="text-4xl font-bold text-white mb-0">Auto Slot Machine v1.02</h1>
         <p class="text-xl text-white mt-1 mb-0 subtitle">ein Zero-Player-Game</p>
         <p class="text-lg text-white mt-0.5 mb-2 copyright">(c) 2025 ff. <a href="mailto:datenschrauber@posteo.de" class="text-blue-400 hover:text-blue-300 underline">Datenschrauber</a>
             <span class="copyright-buttons">
@@ -809,7 +809,7 @@ Danke und Viel Spaß!
         function updateStatsDisplay() {
             // 1. Punkte in Bronze umwandeln
             let pointsConvertedToBronze = false; // Flag, um zu prüfen, ob Punkte umgewandelt wurden
-            while (points >= 1000) { // Schwellenwert wieder auf 1000 gesetzt
+            while (points >= 1000) { // Schwellenwert auf 1000 gesetzt
                 points -= 1000;
                 bronze++;
                 pointsConvertedToBronze = true;
@@ -821,20 +821,20 @@ Danke und Viel Spaß!
             }
 
             // 2. Bronze in Silber umwandeln
-            while (bronze >= 1000) { // Schwellenwert wieder auf 1000 gesetzt
+            while (bronze >= 1000) { // Schwellenwert auf 1000 gesetzt
                 bronze -= 1000;
                 silber++;
             }
 
             // 3. Silber in Gold umwandeln
-            while (silber >= 1000) { // Schwellenwert wieder auf 1000 gesetzt
-                silber -= 1000;
+            while (silber >= 100) { // Schwellenwert auf 100 gesetzt
+                silber -= 100;
                 gold++;
             }
 
             // 4. Gold in Platin umwandeln
-            while (gold >= 1000) { // Schwellenwert wieder auf 1000 gesetzt
-                gold -= 1000;
+            while (gold >= 10) { // Schwellenwert auf 10 gesetzt
+                gold -= 10;
                 platin++;
                 // Platin-Anzeige sichtbar machen, wenn sie zum ersten Mal inkrementiert wird
                 if (platinContainer.style.display === 'none' || platinContainer.style.display === '') {
